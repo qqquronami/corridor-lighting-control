@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'Corridor_Lighting_Control/**'
+      - 'Corridor_Lighting_Control_GitHub/Corridor_Lighting_Control/**'
       - '.github/workflows/build-hex.yml'
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Compile sketch for Arduino Uno (ATmega328P, 16 MHz)
         run: |
           mkdir -p build
-          arduino-cli compile --fqbn arduino:avr:uno --output-dir build Corridor_Lighting_Control
+          arduino-cli compile --fqbn arduino:avr:uno --output-dir build Corridor_Lighting_Control_GitHub/Corridor_Lighting_Control
       - name: Publish HEX files
         uses: actions/upload-artifact@v4
         with:

@@ -1,0 +1,33 @@
+name: Compile Proteus HEX
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Corridor_Lighting_Control/**'
+      - '.github/workflows/build-hex.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Download sources
+        uses: actions/checkout@v4
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+      - name: Install ATmega328P compiler and AVR core
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+      - name: Compile sketch for Arduino Uno (ATmega328P, 16 MHz)
+        run: |
+          mkdir -p build
+          arduino-cli compile --fqbn arduino:avr:uno --output-dir build Corridor_Lighting_Control
+      - name: Publish HEX files
+        uses: actions/upload-artifact@v4
+        with:
+          name: Corridor_Lighting_Control-HEX
+          path: build/*.hex
+          if-no-files-found: error

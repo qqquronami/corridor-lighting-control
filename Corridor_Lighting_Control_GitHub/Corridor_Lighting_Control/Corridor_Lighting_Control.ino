@@ -114,3 +114,8 @@ void loop() {
     }
   }
 }
+
+      analogWrite(PWM_PINS[i], brightness[i]);
+    }
+  }
+}
